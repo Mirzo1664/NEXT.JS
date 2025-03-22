@@ -1,0 +1,120 @@
+/* Основные стили для навбара */
+.navbar {
+  background-color: #2c3e50 !important; /* Задний фон */
+  padding: 10px 50px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для эффекта "поднятости" */
+}
+
+/* Логотип */
+.logo-img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Ссылки в навбаре */
+.navbar-nav {
+  gap: 30px;
+  font-size: 18px;
+}
+
+.nav-link {
+  color: white !important;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #f39c12 !important; /* Оранжевый цвет при наведении */
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Модальное окно для мобильных устройств */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.modal-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-links .nav-link {
+  color: #333 !important;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.modal-links .nav-link:hover {
+  background: #f0f0f0;
+}
+
+/* Анимация появления модального окна */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 991px) {
+  .navbar {
+    padding: 10px 20px;
+  }
+
+  .navbar-nav {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-overlay,
+  #open-modal {
+    display: none !important;
+  }
+}
