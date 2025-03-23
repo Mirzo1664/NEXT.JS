@@ -66,7 +66,7 @@ export default function Nav() {
                   Home
                 </Link>
                 <Link href="/about" className="nav-link" onClick={() => setModalOpen(false)}>
-                  About
+                  About Us
                 </Link>
                 <Link href="/product" className="nav-link" onClick={() => setModalOpen(false)}>
                   Product
@@ -88,7 +88,7 @@ export default function Nav() {
               Home
             </Link>
             <Link href="/about" className="nav-link">
-              About
+              About Us
             </Link>
             <Link href="/product" className="nav-link">
               Product
