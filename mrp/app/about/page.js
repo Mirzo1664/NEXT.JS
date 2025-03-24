@@ -31,7 +31,7 @@ export default function About() {
                     <h1>About Us</h1>
                     <p>We create fashion that inspires</p>
                     <div>
-                        <a href='/'><button className="btn"><i className="animation"></i>Go To Shop<i className="animation"></i></button></a>
+                        <a href='/'><button className="button"><i className="animation"></i>Go To Shop<i className="animation"></i></button></a>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@ export default function About() {
                     Explore our collections and find what highlights your uniqueness.
                 </p>
                 <div>
-                    <a href='/'><button className="btn"><i className="animation"></i>Go To Shop<i className="animation"></i></button></a>
+                    <a href='/'><button className="button"><i className="animation"></i>Go To Shop<i className="animation"></i></button></a>
                 </div>
                 
             </div>

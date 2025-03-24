@@ -5,6 +5,11 @@
     font-family: 'Arial', sans-serif;
 }
 
+.dark .footer {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
 .footerContent {
     display: flex;
     justify-content: space-between;
@@ -96,6 +101,11 @@
     transition: background-color 0.3s ease;
 }
 
+.dark .footerSection form input,
+.dark .footerSection form textarea {
+    background-color: #333;
+}
+
 .footerSection form input::placeholder,
 .footerSection form textarea::placeholder {
     color: #bdc3c7;
@@ -105,6 +115,11 @@
 .footerSection form textarea:focus {
     outline: none;
     background-color: #40576b;
+}
+
+.dark .footerSection form input:focus,
+.dark .footerSection form textarea:focus {
+    background-color: #444;
 }
 
 .footerSection form textarea {
@@ -134,3 +149,4 @@
     border-top: 1px solid #34495e;
     font-size: 14px;
 }
+

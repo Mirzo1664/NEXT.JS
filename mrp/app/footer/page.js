@@ -49,8 +49,9 @@ export default function Footer() {
                 </div>
             </div>
             <div className="footerBottom">
-                <p>&copy; Created in 2025. MRP: Timeless Style, Endless Possibilities.</p>
+                <p>&copy; Created by Mirzo in 2025. MRP: Timeless Style, Endless Possibilities.</p>
             </div>
+            
         </footer>
     );
 }
