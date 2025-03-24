@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './style.css';
 
-// Функция для загрузки отзывов из localStorage
 const loadTestimonialsFromStorage = () => {
     const savedTestimonials = localStorage.getItem('testimonials');
     return savedTestimonials ? JSON.parse(savedTestimonials) : [
@@ -64,7 +63,7 @@ export default function SupportPage() {
             };
             const updatedTestimonials = [...testimonials, newTestimonial];
             setTestimonials(updatedTestimonials);
-            saveTestimonialsToStorage(updatedTestimonials); // Сохраняем отзывы в localStorage
+            saveTestimonialsToStorage(updatedTestimonials); 
             closeFeedbackMod();
         }
     };
@@ -112,7 +111,7 @@ export default function SupportPage() {
                         Мы стремимся предоставить вам лучшую поддержку, чтобы вы могли сосредоточиться на том, что действительно важно.
                     </p>
                     <button
-                        style={{ backgroundColor: '#f39c12', color: '#fff' }}
+                
                         className="pulse-button"
                         onClick={openContactMod}
                     >
@@ -175,7 +174,6 @@ export default function SupportPage() {
                 </button>
             </section>
 
-            {/* Мод для отзывов */}
             <AnimatePresence>
                 {isFeedbackModOpen && (
                     <motion.div
@@ -192,7 +190,7 @@ export default function SupportPage() {
                             exit={{ y: -50, opacity: 0 }}
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <h2>Оставить отзыв</h2>
+                            <h2 >Оставить отзыв</h2>
                             <form onSubmit={handleAddTestimonial}>
                                 <input
                                     type="text"
@@ -213,7 +211,6 @@ export default function SupportPage() {
                 )}
             </AnimatePresence>
 
-            {/* Мод для связи */}
             <AnimatePresence>
                 {isContactModOpen && (
                     <motion.div
@@ -243,7 +240,7 @@ export default function SupportPage() {
                                     placeholder="Ваше сообщение"
                                     required
                                 />
-                                <button type="submit">Отправить</button>
+                                <button type="submit" >Отправить</button>
                             </form>
                             <button className="close-button" onClick={closeContactMod}>×</button>
                         </motion.div>
