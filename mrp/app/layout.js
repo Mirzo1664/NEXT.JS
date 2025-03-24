@@ -4,7 +4,7 @@ import "./globals.css";
 import Nav from "./nav/page";
 import Footer from "./footer/page";
 import { useState, useEffect } from 'react';
-
+import { AuthProvider } from "./context/AuthContext";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -47,7 +47,9 @@ export default function RootLayout({ children }) {
     <html lang="en" lang="ru" className="translated-ltr">
       <body className={`${geistSans.variable} ${geistMono.variable} ${isDarkMode ? 'dark' : ''}`}>
         <Nav />
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <Footer />
         {/* Кнопка для переключения темы */}
         <button
