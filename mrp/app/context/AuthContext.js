@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { createContext, useState, useContext, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Alert from '../Alert';
 
@@ -10,9 +10,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accounts, setAccounts] = useState([]);
   const [alert, setAlert] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  const showAlert = useCallback((message, type = 'danger') => {
+  const showAlert = useCallback((message, type = 'error') => {
     setAlert({ message, type });
     const timer = setTimeout(() => setAlert(null), 5000);
     return () => clearTimeout(timer);
@@ -23,30 +24,71 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(userData));
   }, []);
 
-  useEffect(() => {
+  const checkAuth = useCallback(() => {
     try {
       const storedUser = localStorage.getItem('user');
-      const storedAccounts = localStorage.getItem('accounts');
-      
-      if (storedUser) setUser(JSON.parse(storedUser));
-      if (storedAccounts) setAccounts(JSON.parse(storedAccounts));
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        
+        // Проверяем, есть ли пользователь в accounts
+        const storedAccounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+        const accountExists = storedAccounts.some(acc => acc.email === parsedUser.email);
+        
+        if (accountExists) {
+          setUser(parsedUser);
+          return true;
+        } else {
+          // Пользователь есть в user, но нет в accounts - очищаем
+          localStorage.removeItem('user');
+          setUser(null);
+          return false;
+        }
+      }
+      return false;
     } catch (err) {
-      showAlert('Failed to load user data');
+      console.error('Auth check error:', err);
       localStorage.removeItem('user');
+      setUser(null);
+      return false;
     }
-  }, [showAlert]);
+  }, []);
 
-  const login = async (email, password) => {
+  useEffect(() => {
+    const verifyAuth = async () => {
+      try {
+        await checkAuth();
+      } catch (err) {
+        showAlert('Failed to verify authentication');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    verifyAuth();
+  }, [checkAuth, showAlert]);
+
+  const login = useCallback(async (email, password) => {
     try {
+      setIsLoading(true);
       const storedAccounts = JSON.parse(localStorage.getItem('accounts') || '[]');
-      const account = storedAccounts.find(acc => acc.email === email && acc.password === password);
+      const account = storedAccounts.find(acc => acc.email === email);
       
       if (!account) {
-        showAlert('Invalid email or password. Please sign up first.');
+        showAlert('Email not found. Please sign up first.');
         return false;
       }
       
-      const userData = { email: account.email, name: account.username };
+      if (account.password !== password) {
+        showAlert('Incorrect password');
+        return false;
+      }
+      
+      const userData = { 
+        email: account.email, 
+        name: account.username,
+        createdAt: account.createdAt 
+      };
+      
       persistUser(userData);
       router.push('/profile');
       showAlert('Login successful!', 'success');
@@ -54,30 +96,49 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       showAlert('An error occurred during login');
       return false;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [persistUser, router, showAlert]);
 
-  const signup = async (username, email, password) => {
+  const signup = useCallback(async (username, email, password) => {
     try {
-      const storedAccounts = JSON.parse(localStorage.getItem('accounts') || []);
+      setIsLoading(true);
+      const storedAccounts = JSON.parse(localStorage.getItem('accounts') || '[]');
       
-      // Проверяем уникальность email
-      if (storedAccounts.some(acc => acc.email === email)) {
+      const emailExists = storedAccounts.some(acc => acc.email === email);
+      const usernameExists = storedAccounts.some(acc => acc.username === username);
+      
+      if (emailExists) {
         throw new Error('Email already registered');
       }
       
-      // Проверяем уникальность username
-      if (storedAccounts.some(acc => acc.username === username)) {
+      if (usernameExists) {
         throw new Error('Username already taken');
       }
       
-      const newAccount = { username, email, password };
+      if (password.length < 6) {
+        throw new Error('Password must be at least 6 characters');
+      }
+      
+      const newAccount = { 
+        username, 
+        email, 
+        password,
+        createdAt: new Date().toISOString() 
+      };
+      
       const updatedAccounts = [...storedAccounts, newAccount];
       
       setAccounts(updatedAccounts);
       localStorage.setItem('accounts', JSON.stringify(updatedAccounts));
       
-      const userData = { email, name: username };
+      const userData = { 
+        email, 
+        name: username,
+        createdAt: newAccount.createdAt 
+      };
+      
       persistUser(userData);
       router.push('/profile');
       showAlert('Registration successful!', 'success');
@@ -85,8 +146,10 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       showAlert(err.message || 'Registration failed');
       return false;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [persistUser, router, showAlert]);
 
   const logout = useCallback(() => {
     setUser(null);
@@ -102,7 +165,7 @@ export const AuthProvider = ({ children }) => {
         return false;
       }
 
-      const storedAccounts = JSON.parse(localStorage.getItem('accounts') || []);
+      const storedAccounts = JSON.parse(localStorage.getItem('accounts') || '[]');
       const updatedAccounts = storedAccounts.filter(acc => acc.email !== user.email);
       
       setAccounts(updatedAccounts);
@@ -120,17 +183,21 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user, router, showAlert]);
 
+  const contextValue = useMemo(() => ({
+    user,
+    accounts,
+    alert,
+    isLoading,
+    login,
+    signup,
+    logout,
+    deleteAccount,
+    showAlert,
+    checkAuth
+  }), [user, accounts, alert, isLoading, login, signup, logout, deleteAccount, showAlert, checkAuth]);
+
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      login, 
-      signup, 
-      logout, 
-      deleteAccount,
-      accounts, 
-      alert, 
-      showAlert 
-    }}>
+    <AuthContext.Provider value={contextValue}>
       {alert && (
         <Alert 
           message={alert.message} 
@@ -150,3 +217,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+  

@@ -286,3 +286,74 @@
     a {
         text-decoration: none;
     }
+
+    .clothing-slider {
+        padding: 20px 0;
+      }
+      
+      .mySwiper {
+        padding: 30px 0;
+      }
+      
+      .swiper-slide {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        opacity: 0.7;
+        transform: scale(0.9);
+      }
+      
+      .swiper-slide-active {
+        opacity: 1;
+        transform: scale(1.05);
+        z-index: 10;
+      }
+      
+      .swiper-slide img {
+        border-radius: 15px;
+        transition: box-shadow 0.3s ease;
+      }
+      
+      .swiper-slide-active img {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+      
+      .image-swapper {
+        height: 400px;
+        width: 100%;
+        object-fit: cover;
+      }
+      
+      /* Настройки для пагинации и навигации */
+      .swiper-pagination-bullet {
+        background: #f39c12;
+        opacity: 0.5;
+        width: 12px;
+        height: 12px;
+      }
+      
+      .swiper-pagination-bullet-active {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+      
+      .swiper-button-next,
+      .swiper-button-prev {
+        color: #f39c12;
+        background: rgba(255, 255, 255, 0.8);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .swiper-button-next::after,
+      .swiper-button-prev::after {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .products-title {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        text-align: center;
+      }

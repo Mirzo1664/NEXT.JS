@@ -6,6 +6,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import icon from "../../imgs/logo.png";
 import { CiLogin } from "react-icons/ci";
+import { CgProfile } from "react-icons/cg";
+import { BsFillBasket3Fill } from "react-icons/bs";
+import { FaHeart } from "react-icons/fa";
+import { useAuth } from '../context/AuthContext';
 import "./style.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,6 +17,7 @@ export default function Nav() {
   const pathname = usePathname();
   const [modalOpen, setModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -22,7 +27,6 @@ export default function Nav() {
     checkIsMobile();
 
     window.addEventListener('resize', checkIsMobile);
-
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
@@ -33,6 +37,24 @@ export default function Nav() {
       document.body.style.overflow = 'unset';
     }
   }, [modalOpen]);
+
+  const userIcons = user ? (
+    <div className="d-flex align-items-center gap-3">
+      <Link href="/wishlist" className="nav-link">
+        <FaHeart className="fs-5" />
+      </Link>
+      <Link href="/basket" className="nav-link">
+        <BsFillBasket3Fill className="fs-5" />
+      </Link>
+      <Link href="/profile" className="nav-link">
+        <CgProfile /> Profile
+      </Link>
+    </div>
+  ) : (
+    <Link href="/login" className="nav-link">
+      <CiLogin /> Login
+    </Link>
+  );
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
@@ -74,9 +96,23 @@ export default function Nav() {
                 <Link href="/support" className="nav-link" onClick={() => setModalOpen(false)}>
                   Support
                 </Link>
-                <Link href="/login" className="nav-link" onClick={() => setModalOpen(false)}>
-                  <CiLogin /> Login
-                </Link>
+                {user ? (
+                  <>
+                    <Link href="/wishlist" className="nav-link" onClick={() => setModalOpen(false)}>
+                      <FaHeart /> Wishlist
+                    </Link>
+                    <Link href="/basket" className="nav-link" onClick={() => setModalOpen(false)}>
+                      <BsFillBasket3Fill /> basket
+                    </Link>
+                    <Link href="/profile" className="nav-link" onClick={() => setModalOpen(false)}>
+                      <CgProfile /> Profile
+                    </Link>
+                  </>
+                ) : (
+                  <Link href="/login" className="nav-link" onClick={() => setModalOpen(false)}>
+                    <CiLogin /> Login
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -96,9 +132,7 @@ export default function Nav() {
             <Link href="/support" className="nav-link">
               Support
             </Link>
-            <Link href="/login" className="nav-link nav-icon">
-              <CiLogin />Login
-            </Link>
+            {userIcons}
           </div>
         </div>
       </div>

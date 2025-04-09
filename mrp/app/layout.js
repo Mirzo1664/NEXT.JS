@@ -1,10 +1,11 @@
-'use client'; // Добавляем 'use client', так как используем состояние и эффекты
+'use client';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "./nav/page";
 import Footer from "./footer/page";
 import { useState, useEffect } from 'react';
 import { AuthProvider } from "./context/AuthContext";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -15,20 +16,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
-
 export default function RootLayout({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Загружаем тему из localStorage при загрузке страницы
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       setIsDarkMode(true);
     }
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 900);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  // Применяем тему и сохраняем её в localStorage
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -46,29 +50,30 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" lang="ru" className="translated-ltr">
       <body className={`${geistSans.variable} ${geistMono.variable} ${isDarkMode ? 'dark' : ''}`}>
-        <Nav />
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-        <Footer />
-        {/* Кнопка для переключения темы */}
-        <button
-          onClick={toggleDarkMode}
-          style={{
-            position: 'fixed',
-            bottom: '20px',
-            right: '20px',
-            padding: '10px',
-            borderRadius: '50%',
-            backgroundColor: isDarkMode ? '#fff' : '#000',
-            color: isDarkMode ? '#000' : '#fff',
-            border: 'none',
-            cursor: 'pointer',
-            zIndex: 1000,
-          }}
-        >
-          {isDarkMode ? '☀️' : '🌙'}
-        </button>
+        {isLoading ? (
+          <div className="loader-overlay">
+            <div className="loader-wrapper">
+              <div className="loader-circle"></div>
+              <div className="loader-circle"></div>
+              <div className="loader-circle"></div>
+              <div className="loader-shadow"></div>
+              <div className="loader-shadow"></div>
+              <div className="loader-shadow"></div>
+            </div>
+          </div>
+        ) : (
+          <AuthProvider>
+            <Nav />
+            {children}
+            <Footer />
+            <button
+              onClick={toggleDarkMode}
+              className="theme-toggle-button"
+            >
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
+          </AuthProvider>
+        )}
       </body>
     </html>
   );

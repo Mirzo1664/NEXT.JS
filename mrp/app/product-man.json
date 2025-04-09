@@ -1,0 +1,37 @@
+
+{
+    "products": [
+      {
+        "id": 1,
+        "brand": "IGURE",
+        "name": "GREEN MUSCLE FIT POLO SHIRT",
+        "originalPrice": 550.00,
+        "salePrice": 250.00,
+        "image": "/t1.jpg"
+      },
+      {
+        "id": 2,
+        "brand": "IGURE",
+        "name": "GREEN MUSCLE FIT POLO SHIRT",
+        "originalPrice": 550.00,
+        "salePrice": 250.00,
+        "image": "/t2.jpg"
+      },
+      {
+        "id": 3,
+        "brand": "IGURE",
+        "name": "GREEN MUSCLE FIT POLO SHIRT",
+        "originalPrice": 550.00,
+        "salePrice": 250.00,
+        "image": "/t3.jpg"
+      },
+      {
+        "id": 4,
+        "brand": "IGURE",
+        "name": "GREEN MUSCLE FIT POLO SHIRT",
+        "originalPrice": 550.00,
+        "salePrice": 250.00,
+        "image": "/t4.jpg"
+      }
+    ]
+  } 

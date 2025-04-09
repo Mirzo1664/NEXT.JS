@@ -1,25 +1,29 @@
-body,
-html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    overflow-x: hidden;
-}
-
 .support-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
+    transition: 1s;
 }
 
-.parallax-section {
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}.parallax-section {
     position: relative;
-    height: 400px;
+    height: 50vh;
+    width: 100%; 
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    background: url(../../imgs/Shop.jpg) no-repeat center center;
+    background-size: cover; 
+    color: white;
+    margin: 0;
+    padding: 0;
 }
 
 .parallax-bg {
@@ -47,6 +51,7 @@ html {
 }
 
 .image-section img {
+    margin-top: 50px;
     max-width: 100%;
     height: auto;
     border-radius: 10px;
@@ -61,6 +66,10 @@ html {
     max-width: 500px;
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .text-section h2 {
@@ -73,25 +82,19 @@ html {
     line-height: 1.6;
 }
 
-
-
-
 .pulse-button {
     margin-top: 20px;
     padding: 10px 20px;
-    font-size: 1.2em;
     background-color: #f39c12;
     color: white;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
-    position: relative;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
     font-weight: 550;
-
-    z-index: 2;
+    width: fit-content;
 }
-
 
 .stats-section {
     padding: 50px 20px;
@@ -108,7 +111,8 @@ html {
 
 .progress-bar {
     width: 100%;
-    background-color: #e0e0e0;
+    color: #333;
+    font-size: 2.5rem;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -152,17 +156,14 @@ html {
     padding: 10px 20px;
     background-color: #f39c12;
     color: white;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
     transition: background-color 0.3s ease;
     position: relative;
     z-index: 2;
-}
-
-.add-testimonial-button:hover {
-    background-color: #e67e22;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 550;
 }
 
 .mod-overlay {
@@ -241,17 +242,211 @@ html {
     color: #333;
 }
 
-.add-testimonial-button {
-    border: none;
-    transition: all 0.3s;
-    cursor: pointer;
-    background: #e67e22;
-    font-size: 1.2em;
-    font-weight: 550;
+@media (max-width: 1569px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .image-section {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .text-section {
+        width: 100%;
+        max-width: 800px;
+        padding: 0 20px;
+    }
+    
+    .text-section h2 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 550;
+        margin-bottom: 20px;
+        margin-top: 40px;
+    }
+    
+    .text-section p {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+    
+    .image-zoom {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: contain;
+    }
 }
 
-.add-testimonial-button:hover {
-    background: #2c3e50;
-    color: white;
-    font-size: 1.5em;
+@media (max-width: 768px) {
+    .about-page {
+        padding: 15px;
+    }
+  
+    .hero-section {
+        padding: 80px 20px;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-section p {
+        font-size: 2rem;
+    }
+  
+    .mission-section h2,
+    .values-section h2,
+    .team-section h2,
+    .cta-section h2 {
+        font-size: 2rem;
+    }
+    
+    .mission-section p {
+        font-size: 1rem;
+    }
+  
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .value-card {
+        padding: 20px;
+    }
+  
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .team-member img {
+        width: 120px;
+        height: 120px;
+    }
+  
+    .cta-section {
+        padding: 40px 20px;
+    }
+    
+    .cta-button {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+  
+    .button {
+        min-width: 160px;
+        padding: 12px 16px;
+        font-size: 11px;
+    }
+  
+    .image-swapper {
+        height: 300px;
+    }
+  
+    .products-title {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+  
+    .support-container {
+        padding: 15px;
+    }
+    
+    .content {
+        flex-direction: column;
+    }
+    
+    .image-section, 
+    .text-section {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .text-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .text-section-p {
+        font-size: 1rem;
+    }
+    
+    .stats-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .testimonials-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .testimonial p {
+        font-size: 1rem;
+    }
+    
+    .text-section h2,p {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 550;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-section p {
+        font-size: 1rem;
+    }
+    
+    .mission-section h2,
+    .values-section h2,
+    .team-section h2,
+    .cta-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .value-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    .team-member h3 {
+        font-size: 1.3rem;
+    }
+    
+    .cta-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .image-swapper {
+        height: 250px;
+    }
+    
+    .products-title {
+        font-size: 1.8rem;
+    }
+    
+    .text-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .stats-section h2,
+    .testimonials-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .text-section h2,p {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 550;
+        margin-bottom: 20px;
+    }
 }
