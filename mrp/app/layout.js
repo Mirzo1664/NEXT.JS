@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
 
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 900);
+    },10);
 
     return () => clearTimeout(timer);
   }, []);

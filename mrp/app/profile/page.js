@@ -7,6 +7,10 @@ import Alert from '../Alert';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { FaPlus, FaSignOutAlt, FaTrash, FaUser } from 'react-icons/fa';
 
 export default function Profile() {
   const { user, logout, deleteAccount, alert, showAlert, checkAuth } = useAuth();
@@ -60,99 +64,125 @@ export default function Profile() {
   }
 
   if (!user) {
-    return null; 
+    return null;
   }
 
   return (
-    <div className='container-profile' style={{ padding: '200px 0' }}>
+    <div className="profile-page py-5 mb-5 mt-5">
       <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-6">
-            <div className="card shadow">
-              <div className="card-body p-4">
-                <h2 className="card-title text-center mb-4">Profile</h2>
-                
-                {alert && (
-                  <Alert 
-                    message={alert.message} 
-                    type={alert.type} 
-                    onClose={() => showAlert(null)} 
-                  />
-                )}
-                
-                <div className="mb-4">
-                  <h5 className="mb-3">Account Information</h5>
-                  <div className="mb-2">
-                    <strong>Name:</strong> {user.name}
-                  </div>
-                  <div className="mb-2">
-                    <strong>Email:</strong> {user.email}
-                  </div>
+        <Row className="justify-content-center">
+          <Col md={10} lg={8}>
+            {alert && (
+              <Alert 
+                message={alert.message} 
+                type={alert.type} 
+                onClose={() => showAlert(null)} 
+              />
+            )}
+
+            <Card className="shadow-sm">
+              <Card.Header className="bg-primary text-white">
+                <div className="d-flex align-items-center">
+                  <FaUser className="me-2" />
+                  <h4 className="mb-0">User Profile</h4>
                 </div>
-                
-                <div className="d-flex justify-content-between mt-4">
-                  <Button 
-                    variant="outline-secondary" 
-                    onClick={logout}
-                  >
-                    Logout
-                  </Button>
+              </Card.Header>
+              
+              <Card.Body className="p-4">
+                <Row>
+                  <Col md={6}>
+                    <div className="mb-4">
+                      <h5 className="border-bottom pb-2">All Information</h5>
+                      <div className="mb-3">
+                        <label className="text-muted small mb-1">Name</label>
+                        <p className="fs-5">{user.name}</p>
+                      </div>
+                      <div className="mb-3">
+                        <label className="text-muted small mb-1">Email</label>
+                        <p className="fs-5">{user.email}</p>
+                      </div>
+                    </div>
+                  </Col>
                   
-                  <Button 
-                    variant="danger" 
-                    onClick={() => setShowDeleteModal(true)}
-                  >
-                    Delete Account
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <Modal 
-          show={showDeleteModal} 
-          onHide={() => setShowDeleteModal(false)} 
-          centered
-          backdrop="static"
-          keyboard={false} 
-          className="text-black"
-        >
-          <Modal.Header closeButton className="border-bottom-0">
-            <Modal.Title>Confirm Account Deletion</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-            <p className="text-danger">All your data will be permanently removed.</p>
-          </Modal.Body>
-          <Modal.Footer className="border-top-0">
-            <Button 
-              variant="secondary" 
-              onClick={() => setShowDeleteModal(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </Button>
-            <Button 
-              variant="danger" 
-              onClick={handleDeleteAccount}
-              disabled={isDeleting}
-            >
-              {isDeleting ? (
-                <>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                  <span className="ms-2">Deleting...</span>
-                </>
-              ) : 'Delete Account'}
-            </Button>
-          </Modal.Footer>
-        </Modal>
+                  <Col md={6}>
+                    <div className="mb-4">
+                      <h5 className="border-bottom pb-2">Actions</h5>
+                      <div className="d-grid gap-3">
+                        <Button
+                          variant="outline-secondary"
+                          onClick={logout}
+                          className="d-flex align-items-center justify-content-center"
+                        >
+                          <FaSignOutAlt className="me-2" />     
+                          Log out of your account
+                        </Button>
+                        <Button
+                          variant="success"
+                          onClick={() => router.push('/created')}
+                          className="d-flex align-items-center justify-content-center"
+                        >
+                          <FaPlus className="me-2" />
+                          Создать товар
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          onClick={() => setShowDeleteModal(true)}
+                          className="d-flex align-items-center justify-content-center"
+                        >
+                          <FaTrash className="me-2" />
+                          Delete account
+                        </Button>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </div>
+
+      <Modal 
+        show={showDeleteModal} 
+        onHide={() => setShowDeleteModal(false)} 
+        centered
+        backdrop="static"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className='text-dark'>Delete Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className='text-dark'>Are you sure you want to delete your account? This action cannot be undone.</p>
+          <p className="text-danger">All your data will be permanently deleted.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button 
+            variant="secondary" 
+            onClick={() => setShowDeleteModal(false)}
+            disabled={isDeleting}
+          >
+            Cancel
+          </Button>
+          <Button 
+            variant="danger" 
+            onClick={handleDeleteAccount}
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                <span className="ms-2">Deleting...</span>
+              </>
+            ) : 'Delete account'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

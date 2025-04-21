@@ -4,6 +4,11 @@ import Image from 'next/image';
 import './style.css';
 import clothes from '../../imgs/Clothes.webp';
 import Shop from '../../imgs/Shop.jpg';
+import S from '../../imgs/S.png';
+import U from '../../imgs/U.png';
+import P from '../../imgs/P.png';
+import Link from "next/link";
+import { FaLeaf, FaGem, FaAward, FaPalette, FaMountain, FaCheckCircle } from 'react-icons/fa';
 
 const loadTestimonialsFromStorage = () => {
   if (typeof window !== 'undefined') {
@@ -23,6 +28,16 @@ const loadTestimonialsFromStorage = () => {
         id: 3,
         name: "Алексей Смирнов",
         text: "Спасибо за оперативность и качество услуг.",
+      },
+      {
+        id: 4,
+        name: "Андрей Гаврилин",
+        text: "Очень рекомендую очень хороший и быстрый сервис.",
+      },
+      {
+        id: 5,
+        name: "Лилия Василиева",
+        text: "Крутой сервис спасибо за ваши услуги.",
       },
     ];
   }
@@ -72,8 +87,43 @@ export default function SupportPage() {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
+  const promises = [
+    {
+      icon: <FaLeaf className="promise-icon" />,
+      title: "Sustainable sourcing",
+      description: "From field to fabric, we partner with eco-conscious producers who prioritize renewable resources and low-impact manufacturing processes.."
+    },
+    {
+      icon: <FaGem className="promise-icon" />,
+      title: "Premium materials",
+      description: "Our company uses only premium materials for clothing so that customers are always happy."
+    },
+    {
+      icon: <FaAward className="promise-icon" />,
+      title: "Lifetime warranty",
+      description: "We give a guarantee on our product because we are confident in it and have never doubted it.."
+    },
+    {
+      icon: <FaPalette className="promise-icon" />,
+      title: "Designed by you",
+      description: "Our product has a unique design that you can purchase and be unique among all."
+    },
+    {
+      icon: <FaMountain className="promise-icon" />,
+      title: "All-terrain tested",
+      description: "Our product has been tested in many climate conditions and because of this we guarantee comfort for any climate.."
+    },
+    {
+      icon: <FaCheckCircle className="promise-icon" />,
+      title: "Quality assured",
+      description: "the quality of our product can provide you with Comfort, Style, Quality and of course durability."
+    }
+  ];
   return (
     <div className="support-container">
+
+
+      
       <div className="parallax-section">
         <div className="parallax-content">
 
@@ -147,6 +197,34 @@ Contact us
         </button>
       </section>
 
+      <section className="promise-section">
+      <div className="promise-header">
+        <h2>OUR PROMISE</h2>
+        <h3>Setting the bar for our products.</h3>
+        <p>
+        When you wear Clothes, our environment immediately changes and becomes comfortable, the body feels comfortable. Your environment depends on your appearance, that's why we make the most fashionable clothes
+        </p>
+      </div>
+      
+      <div className="promise-grid">
+        {promises.map((promise, index) => (
+          <div key={index} className="promise-card">
+            <div className="promise-icon-container">
+              {promise.icon}
+            </div>
+            <h4>{promise.title}</h4>
+            <p>{promise.description}</p>
+          </div>
+        ))}
+      </div>
+
+    </section>
+
+    <div className='bg-image-support'>
+  <h1>Elevate Your Style</h1>
+  <p>Discover curated collections that blend timeless elegance with contemporary trends</p>
+  <Link href="/product"><button className='fashion-btn'>BE IN FASHION</button></Link>
+</div>
       {isFeedbackModOpen && (
         <Modal
           isOpen={isFeedbackModOpen}
@@ -198,8 +276,10 @@ Contact us
           </form>
         </Modal>
       )}
+      
     </div>
   );
+  
 }
 
 function Modal({ isOpen, onClose, title, children }) {
@@ -219,5 +299,7 @@ function Modal({ isOpen, onClose, title, children }) {
         </button>
       </div>
     </div>
+
+    
   );
 }

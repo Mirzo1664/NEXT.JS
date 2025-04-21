@@ -2,6 +2,7 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 200px 0;
+  
 }
 
 .profile-info {
@@ -31,4 +32,48 @@
 
 .modal-title {
   color: black;
+}
+.profile-page {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  
+}
+
+.profile-actions .btn {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.user-info-card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.user-info-header {
+  padding: 15px 20px;
+}
+
+.user-info-body {
+  padding: 25px;
+}
+
+.info-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0.3rem;
+}
+
+.info-value {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.action-btn {
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }

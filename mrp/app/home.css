@@ -20,7 +20,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url(../imgs/Home.jpg) center/cover no-repeat;
+  background: url("../imgs/Home.jpg") center/cover no-repeat;
   background-attachment: fixed;
   filter: blur(5px); 
   z-index: -1; 
@@ -266,7 +266,6 @@
   font-size: 0.9rem;
 }
 
-/* Newsletter Section */
 .newsletter-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 80px 300px;
@@ -485,9 +484,9 @@
   overflow: hidden;
 }
 
-.product-image {
+.home-product-image {
   width: 100%;
-  height: 300px;
+  height: 280px;
   position: relative;
   overflow: hidden;
 }
@@ -532,3 +531,258 @@
   object-fit: cover;
 }
 
+
+
+.top-brands-section {
+  background-color: white;
+  padding: 40px 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.brands-header {
+  margin-bottom: 20px;
+}
+
+.brands-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.brands-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0;
+}
+
+.brands-dimensions {
+  font-size: 1.1rem;
+  color: #888;
+  margin: 15px 0;
+  font-weight: 500;
+}
+
+.brands-grid {
+  display: flex;
+  justify-content: center;
+  gap:65px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.brand-item {
+  background: #FFFFFF ;
+  padding: 15px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.brand-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 80px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.brand-image {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  filter: grayscale(30%);
+  transition: filter 0.3s ease;
+}
+
+.brand-item:hover .brand-image {
+  filter: grayscale(0%);
+}
+
+@media (max-width: 768px) {
+  .brands-grid {
+    gap: 10px;
+  }
+  
+  .brand-item {
+    padding: 10px;
+  }
+  
+  .brand-logo {
+    width: 120px;
+    height: 60px;
+  }
+}
+
+.bannerContainer {
+  display: flex;
+  min-height: 1100px;
+  position: relative;
+  overflow: hidden;
+  background: url('../imgs/F.png') center /cover;
+}
+
+.textContent {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+  color: #FFFFFF;
+}
+
+.mainHeading {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  color: #FFFFFF;
+}
+
+.subtext {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  max-width: 500px;
+  color: #FFFFFF;
+}
+
+.brandText {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 15px 0;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.description {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+  max-width: 500px;
+  color: #FFFFFF;
+}
+
+
+
+
+.dimensions {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #fff;
+  margin-top: 40px;
+}
+
+.hh-imageContainer {
+  flex: 1;
+  position: relative;
+  min-height: 400px;
+}
+
+.hh-image {
+  object-position: center;
+}
+
+@media (max-width: 1200px) {
+  .bannerContainer {
+    flex-direction: column;
+  }
+  
+  .textContent {
+    padding: 40px;
+  }
+  
+  .imageContainer {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .brandText {
+    font-size: 1.2rem;
+  }
+  
+  .description {
+    font-size: 1.1rem;
+  }
+}
+
+.b{
+  background-color: white;
+  height:50px;
+  width: 230px;
+  border-radius: 10px;
+}
+
+.product-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.product-card:hover .go-to-shop-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.go-to-shop-btn {
+  position: absolute;
+  top: 40%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.go-to-shop-btn:hover {
+  background-color: #333;
+}
+
+.product-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-image-overlay {
+  opacity: 10;
+}

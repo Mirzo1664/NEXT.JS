@@ -111,7 +111,6 @@
 
 .progress-bar {
     width: 100%;
-    color: #333;
     font-size: 2.5rem;
     border-radius: 10px;
     overflow: hidden;
@@ -180,7 +179,6 @@
 }
 
 .mod-content {
-    background-color: white;
     padding: 20px;
     border-radius: 10px;
     max-width: 500px;
@@ -396,6 +394,33 @@
         font-weight: 550;
         margin-bottom: 20px;
     }
+    .promise-section {
+        padding: 3rem 1rem;
+      }
+      
+      .promise-header h3 {
+        font-size: 1.8rem;
+      }
+      
+      .promise-header p {
+        font-size: 1rem;
+      }
+      
+      .promise-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .bg-image-support h1 {
+        font-size: 2.5rem;
+      }
+      
+      .bg-image-support p {
+        font-size: 1.1rem;
+      }
+      
+      .fashion-btn {
+        padding: 12px 30px;
+      }
 }
 
 @media (max-width: 480px) {
@@ -449,4 +474,132 @@
         font-weight: 550;
         margin-bottom: 20px;
     }
+    
+
 }
+
+
+.promise-section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .promise-header h2 {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #555;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  
+  .promise-header h3 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: #222;
+  }
+  
+  .promise-header p {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+  
+  .promise-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3,1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  
+  .promise-card {
+    padding: 2rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .promise-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  .promise-icon-container {
+    font-size: 2.5rem;
+    color: #4a6fa5;
+    margin-bottom: 1.5rem;
+  }
+  
+  .promise-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .promise-card p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+  
+  .bg-image-support {
+    position: relative;
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background: 
+      linear-gradient(rgba(0, 0, 0, 0.4)), 
+      url('../../imgs/supp.png') no-repeat center center;
+    background-size: cover;
+    padding: 0 20px;
+  }
+  
+  .bg-image-support h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    animation: fadeIn 1s ease-in;
+  }
+  
+  .bg-image-support p {
+    font-size: 1.3rem;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    animation: fadeIn 1.5s ease-in;
+  }
+  
+  .fashion-btn {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: fadeIn 2s ease-in;
+  }
+  
+  .fashion-btn:hover {
+    background-color: white;
+    color: black;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }

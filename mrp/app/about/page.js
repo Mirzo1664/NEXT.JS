@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import t1 from '../../imgs/t1.jpg';
@@ -13,6 +12,8 @@ import t6 from '../../imgs/t6.jpg';
 import w1 from '../../imgs/w1.jpg';
 import w2 from '../../imgs/w2.jpg';
 import w3 from '../../imgs/w3.jpg';
+import R from '../../imgs/R.png';
+import M from '../../imgs/M.png';
 import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -27,7 +28,11 @@ export default function About() {
                     <h1>About Us</h1>
                     <p>We create fashion that inspires</p>
                     <div>
-                        <a href='/product'><button className="button"><i className="animation"></i>Go To Shop<i className="animation"></i></button></a>
+                        <a href='/produc'>
+                            <button className="button">
+                                <i className="animation"></i>Go To Shop<i className="animation"></i>
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -72,17 +77,17 @@ export default function About() {
                 </p>
                 <div className="team-grid">
                     <div className="team-member">
-                        <Image src={w1} alt='1' width='100%'/>
+                        <Image src={w1} alt='Jessie, Lead Designer' width={300} height={400} />
                         <h3>Jessie</h3>
                         <p>Lead Designer</p>
                     </div>
                     <div className="team-member">
-                        <Image src={w2} alt='1' width='100%'/>
+                        <Image src={w2} alt='Ivan, Sales Manager' width={300} height={400} />
                         <h3>Ivan</h3>
                         <p>Sales Manager</p>
                     </div>
                     <div className="team-member">
-                        <Image src={w3} alt='1' width='100%'/>
+                        <Image src={w3} alt='Kate, Stylist' width={300} height={400} />
                         <h3>Kate</h3>
                         <p>Stylist</p>
                     </div>
@@ -95,10 +100,14 @@ export default function About() {
                     Explore our collections and find what highlights your uniqueness.
                 </p>
                 <div>
-                    <a href='/products'><button className="button"><i className="animation"></i>Go To Shop<i className="animation"></i></button></a>
+                    <a href='/product'>
+                        <button className="button">
+                            <i className="animation"></i>Go To Shop<i className="animation"></i>
+                        </button>
+                    </a>
                 </div>
             </div>
-            
+
             <h1 className='products-title'>Our Products</h1>
 
             <div className="clothing-slider">
@@ -107,11 +116,11 @@ export default function About() {
                     spaceBetween={30}
                     slidesPerView={3}
                     centeredSlides={true}
-                    autoplay={{ 
-                        delay: 3000, 
-                        disableOnInteraction: false 
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false
                     }}
-                    pagination={{ 
+                    pagination={{
                         clickable: true,
                         dynamicBullets: true
                     }}
@@ -133,61 +142,69 @@ export default function About() {
                         }
                     }}
                 >
-                    <SwiperSlide>
-                        <Image 
-                            src={t1} 
-                            alt="Fashion item 1"
-                            width={400}
-                            height={400}
-                            className="image-swapper"
-                        />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Image 
-                            src={t2} 
-                            alt="Fashion item 2"
-                            width={400}
-                            height={400}
-                            className="image-swapper"
-                        />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Image 
-                            src={t3} 
-                            alt="Fashion item 2"
-                            width={400}
-                            height={400}
-                            className="image-swapper"
-                        />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Image 
-                            src={t4} 
-                            alt="Fashion item 2"
-                            width={400}
-                            height={400}
-                            className="image-swapper"
-                        />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Image 
-                            src={t5} 
-                            alt="Fashion item 2"
-                            width={400}
-                            height={400}
-                            className="image-swapper"
-                        />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Image 
-                            src={t6} 
-                            alt="Fashion item 2"
-                            width={400}
-                            height={400}
-                            className="image-swapper"
-                        />
-                    </SwiperSlide>
+                    {[t1, t2, t3, t4, t5, t6].map((img, i) => (
+                        <SwiperSlide key={i}>
+                            <Image
+                                src={img}
+                                alt={`Fashion item ${i + 1}`}
+                                width={400}
+                                height={400}
+                                className="image-swapper"
+                            />
+                        </SwiperSlide>
+                    ))}
                 </Swiper>
+            </div>
+
+            <div className="about-content">
+                <div className="story-section left-image">
+                    <div className="story-image">
+                        <Image
+                            src={M}
+                            alt="Founder of MRP"
+                            width={500}
+                            height={600}
+                            className="founder-photo"
+                        />
+                    </div>
+                    <div className="story-text">
+                        <h2>The Idea and the Woman</h2>
+                        <p>
+                            MRP was founded in 2010 and has become one of the most successful companies in our country.
+                            Like many Italian companies, MRP remains a family business, although no family member is a designer.
+                        </p>
+                        <p>
+                            We follow a successful formula, working with renowned designers to create our collections.
+                            This method was described by fashion critic Colin McDowell as a form of design co-creation,
+                            typical for many Italian prêt-à-porter brands.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="story-section right-image">
+                    <div className="story-text">
+                        <h2>Magic in the Details</h2>
+                        <p>
+                            The first MRP store opened in a small town in the eastern part of the country in 2010.
+                            The first collection consisted of two coats and a suit that were replicas of famous designs.
+                        </p>
+                        <p>
+                            Although the founder was a lawyer by education, her family had deep roots in tailoring:
+                            her great-grandmother made clothes for women, and her mother opened a professional sewing school.
+                            The ambition to create clothing for the masses carried huge potential—especially at a time
+                            when high fashion still dominated and the quality prêt-à-porter market hardly existed.
+                        </p>
+                    </div>
+                    <div className="story-image">
+                        <Image
+                            src={R}
+                            alt="MRP clothing details"
+                            width={500}
+                            height={600}
+                            className="details-photo"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

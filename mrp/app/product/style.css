@@ -246,7 +246,7 @@
 
 .product-image-container {
   width: 100%;
-  height: 370px;
+  height: 270px;
   position: relative;
   overflow: hidden;
   margin-bottom: 15px;
@@ -289,40 +289,7 @@
   font-size: 1.1rem;
 }
 
-.gallery-section {
-  padding: 40px 300px;
-  background-color: #fff;
-}
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.gallery-item {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
-}
-
-.gallery-item.large {
-  grid-column: span 2;
-  height: 600px;
-}
-
-.gallery-item.small {
-  height: 400px;
-}
-
-.gallery-image {
-  transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-image {
-  transform: scale(1.05);
-}
 
 .category-overlay {
   position: absolute;
@@ -348,9 +315,7 @@
   .product-content {
     left: 400px;
   }
-  .gallery-section {
-    padding: 40px 150px;
-  }
+
 }
 
 @media (max-width: 1200px) {
@@ -366,18 +331,14 @@
     left: 300px;
     top: 80px;
   }
-  .gallery-section {
-    padding: 40px 150px;
-  }
+
 }
 
 @media (max-width: 992px) {
   .products-section {
     padding: 50px 100px;
   }
-  .gallery-section {
-    padding: 40px 100px;
-  }
+ 
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -419,17 +380,17 @@
   .products-section {
     padding: 50px 40px;
   }
-  .gallery-section {
-    padding: 40px;
+  .modal-product-content {
+    flex-direction: column;
   }
   
-  .gallery-grid {
-    grid-template-columns: 1fr;
+  .modal-product-image-container,
+  .modal-product-info {
+    width: 100%;
   }
   
-  .gallery-item.large {
-    grid-column: span 1;
-    height: 400px;
+  .modal-product-image-container {
+    height: 300px;
   }
 }
 
@@ -449,14 +410,9 @@
   .products-section {
     padding: 40px 20px;
   }
-  .gallery-section {
-    padding: 20px;
-  }
+ 
 }
 
-.product-image-container {
-  position: relative;
-}
 
 .product-icons {
   position: absolute;
@@ -489,24 +445,19 @@
 .icon-button:hover {
   transform: scale(1.1);
 }
-/* Стили для активной кнопки вишлиста */
 .icon-button.active {
   color: red;
 }
-
-/* Стили для отключенной кнопки корзины */
 .icon-button.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Анимация при нажатии на кнопку */
 .icon-button:active {
   transform: scale(0.9);
   transition: transform 0.1s;
 }
 
-/* Стили для иконок */
 .icon-button {
   background: none;
   border: none;
@@ -518,4 +469,153 @@
 
 .icon-button:hover {
   opacity: 0.8;
+}
+.modal-product {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 30px;
+  max-width: 900px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  outline: none;
+  z-index: 1001;
+}
+
+.modal-product-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
+
+.modal-product-content {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.modal-product-image-container {
+  flex: 1;
+  min-height: 400px;
+  max-height: 500px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f8f8f8;
+}
+
+.modal-product-image {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-product-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.modal-product-brand {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.modal-product-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.modal-product-price {
+  margin-bottom: 2rem;
+}
+
+.modal-product-price .original-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.modal-product-price .sale-price {
+  font-weight: bold;
+  color: #e63946;
+  font-size: 1.5rem;
+}
+
+.modal-product-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.modal-product-button {
+  padding: 12px 25px;
+  border: none;
+  background: #f1f1f1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.modal-product-button:hover {
+  background: #e0e0e0;
+}
+
+.modal-product-button.active {
+  background: #e63946;
+  color: white;
+}
+
+.modal-product-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  z-index: 10;
+}
+
+.show-more-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.show-more-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.show-more-button:hover {
+  background-color: #333;
 }

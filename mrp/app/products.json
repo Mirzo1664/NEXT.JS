@@ -3,32 +3,32 @@
   "products": [
     {
       "id": 1,
-      "brand": "IGURE",
-      "name": "GREEN MUSCLE FIT POLO SHIRT",
+      "brand": "TOMMY HILFIGER",
+      "name": "SIGNATURE OXFORD",
       "originalPrice": 550.00,
       "salePrice": 250.00,
       "image": "/t1.jpg"
     },
     {
       "id": 2,
-      "brand": "IGURE",
-      "name": "GREEN MUSCLE FIT POLO SHIRT",
+      "brand": "LORO PIANO",
+      "name": "APEX PARKA",
       "originalPrice": 550.00,
       "salePrice": 250.00,
       "image": "/t2.jpg"
     },
     {
       "id": 3,
-      "brand": "IGURE",
-      "name": "GREEN MUSCLE FIT POLO SHIRT",
+      "brand": "BALENCIAGA",
+      "name": "WOMEN'S BAG",
       "originalPrice": 550.00,
       "salePrice": 250.00,
       "image": "/t3.jpg"
     },
     {
       "id": 4,
-      "brand": "IGURE",
-      "name": "GREEN MUSCLE FIT POLO SHIRT",
+      "brand": "POLO",
+      "name": "BLUE POLO SHIRT",
       "originalPrice": 550.00,
       "salePrice": 250.00,
       "image": "/t4.jpg"

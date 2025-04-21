@@ -31,7 +31,7 @@ export default function Footer() {
                     </ul>
                 </div>
                 <div className="footerSection">
-                    <h3>Контакты</h3>
+                    <h3>Contacts</h3>
                     <ul>
                         <li>Adress: Uzbekistan-Samarkand</li>
                         <li>Phone: +998 (93) 929-92-62</li>
