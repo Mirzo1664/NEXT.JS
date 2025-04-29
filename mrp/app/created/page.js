@@ -17,7 +17,7 @@ export default function CreateProduct() {
     title: '',
     description: '',
     price: '',
-    category: 'women', // Установим значение по умолчанию
+    category: 'customer', // По умолчанию устанавливаем 'customer'
     image: null,
   });
 
@@ -54,38 +54,35 @@ export default function CreateProduct() {
     setIsSubmitting(true);
     
     try {
-      // Создаем объект нового продукта
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
       const newProduct = {
-        id: Date.now(), // Генерируем уникальный ID
-        name: product.title,
+        id: Date.now(),
+        name: product.title, // Используем name вместо title для совместимости
+        title: product.title,
         description: product.description,
-        salePrice: parseFloat(product.price),
-        originalPrice: parseFloat(product.price) * 1.2, // Добавляем "оригинальную" цену
-        brand: user?.username || 'My Brand', // Используем имя пользователя как бренд
+        price: parseFloat(product.price),
+        originalPrice: parseFloat(product.price), // Добавляем originalPrice
         category: product.category,
         image: product.image ? URL.createObjectURL(product.image) : '/default-product.jpg',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        creator: user.username,
+        brand: user.username // Используем username как бренд
       };
 
-      // Получаем текущие продукты из localStorage
-      const currentProducts = JSON.parse(localStorage.getItem('customProducts') || '{}');
-      
-      // Добавляем новый продукт в соответствующую категорию
-      if (!currentProducts[product.category]) {
-        currentProducts[product.category] = [];
-      }
-      currentProducts[product.category].push(newProduct);
-      
-      // Сохраняем обновленный список
-      localStorage.setItem('customProducts', JSON.stringify(currentProducts));
+      const savedProducts = JSON.parse(localStorage.getItem('userProducts') || '[]');
+      const updatedProducts = [...savedProducts, newProduct];
+      localStorage.setItem('userProducts', JSON.stringify(updatedProducts));
 
-      showAlert('Товар успешно создан!', 'success');
+      showAlert('Product created successfully!', 'success');
       
       setTimeout(() => {
         router.push('/profile');
       }, 1500);
     } catch (error) {
-      showAlert(error.message || 'Ошибка при создании товара');
+      showAlert(error.message || 'Error creating product');
     } finally {
       setIsSubmitting(false);
     }
@@ -107,7 +104,7 @@ export default function CreateProduct() {
         <div className="col-md-8 col-lg-6">
           <div className="card shadow">
             <div className="card-body p-4">
-              <h2 className="card-title text-center mb-4">Создать карточку товара</h2>
+              <h2 className="card-title text-center mb-4">Create Product</h2>
               
               {alert && (
                 <Alert 
@@ -119,7 +116,7 @@ export default function CreateProduct() {
               
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="title">
-                  <Form.Label>Название товара</Form.Label>
+                  <Form.Label>Product Name</Form.Label>
                   <Form.Control
                     type="text"
                     name="title"
@@ -130,7 +127,7 @@ export default function CreateProduct() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="description">
-                  <Form.Label>Описание</Form.Label>
+                  <Form.Label>Description</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
@@ -142,9 +139,10 @@ export default function CreateProduct() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="price">
-                  <Form.Label>Цена</Form.Label>
+                  <Form.Label>Price</Form.Label>
                   <Form.Control
                     type="number"
+                    step="0.01"
                     name="price"
                     value={product.price}
                     onChange={handleChange}
@@ -152,26 +150,15 @@ export default function CreateProduct() {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="category">
-                  <Form.Label>Категория</Form.Label>
-                  <Form.Select
-                    name="category"
-                    value={product.category}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="women">Женская одежда</option>
-                    <option value="men">Мужская одежда</option>
-                  </Form.Select>
-                </Form.Group>
 
                 <Form.Group className="mb-4" controlId="image">
-                  <Form.Label>Изображение товара</Form.Label>
+                  <Form.Label>Product Image</Form.Label>
                   <Form.Control
                     type="file"
                     name="image"
                     onChange={handleChange}
                     accept="image/*"
+                    required
                   />
                 </Form.Group>
 
@@ -181,7 +168,7 @@ export default function CreateProduct() {
                     onClick={() => router.push('/profile')}
                     disabled={isSubmitting}
                   >
-                    Назад
+                    Back
                   </Button>
                   
                   <Button
@@ -198,9 +185,9 @@ export default function CreateProduct() {
                           role="status"
                           aria-hidden="true"
                         />
-                        <span className="ms-2">Сохранение...</span>
+                        <span className="ms-2">Creating...</span>
                       </>
-                    ) : 'Создать товар'}
+                    ) : 'Create Product'}
                   </Button>
                 </div>
               </Form>

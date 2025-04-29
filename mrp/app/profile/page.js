@@ -10,7 +10,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { FaPlus, FaSignOutAlt, FaTrash, FaUser } from 'react-icons/fa';
+import { FaPlus, FaSignOutAlt, FaTrash, FaUser, FaEdit } from 'react-icons/fa';
 
 export default function Profile() {
   const { user, logout, deleteAccount, alert, showAlert, checkAuth } = useAuth();
@@ -18,6 +18,32 @@ export default function Profile() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [userProducts, setUserProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const getProductsFromStorage = () => {
+    try {
+      const products = localStorage.getItem('userProducts');
+      return products ? JSON.parse(products) : [];
+    } catch (error) {
+      console.error('Error parsing products from storage:', error);
+      return [];
+    }
+  };
+
+  const loadUserProducts = useCallback(() => {
+    try {
+      const savedProducts = getProductsFromStorage();
+      const filteredProducts = savedProducts.filter(
+        product => product.creator === user?.username
+      );
+      setUserProducts(filteredProducts);
+    } catch (error) {
+      console.error('Error loading products:', error);
+      showAlert('Failed to load user products');
+    }
+  }, [user?.username, showAlert]);
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -26,6 +52,8 @@ export default function Profile() {
         const isAuthenticated = await checkAuth();
         if (!isAuthenticated) {
           router.push('/login');
+        } else {
+          loadUserProducts();
         }
       } catch (error) {
         showAlert(error.message || 'Authentication check failed');
@@ -36,11 +64,70 @@ export default function Profile() {
     };
 
     verifyAuth();
-  }, [checkAuth, router, showAlert]);
+  }, [checkAuth, router, showAlert, loadUserProducts]);
+
+  const handleDeleteProduct = (productId) => {
+    try {
+      const savedProducts = getProductsFromStorage();
+      const productToDelete = savedProducts.find(p => p.id === productId);
+      const updatedProducts = savedProducts.filter(
+        product => product.id !== productId
+      );
+      
+      localStorage.setItem('userProducts', JSON.stringify(updatedProducts));
+      
+      if (productToDelete?.image) {
+        const productImages = JSON.parse(localStorage.getItem('productImages') || '{}');
+        delete productImages[`customer-${productId}`];
+        localStorage.setItem('productImages', JSON.stringify(productImages));
+      }
+      
+      loadUserProducts();
+      showAlert('Product deleted successfully', 'success');
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      showAlert('Failed to delete product');
+    }
+  };
+  
+  const handleUpdateProduct = (updatedProduct) => {
+    try {
+      const savedProducts = getProductsFromStorage();
+      const updatedProducts = savedProducts.map(product => 
+        product.id === updatedProduct.id ? updatedProduct : product
+      );
+      
+      localStorage.setItem('userProducts', JSON.stringify(updatedProducts));
+      
+      if (updatedProduct.image && updatedProduct.image.startsWith('data:image')) {
+        const productImages = JSON.parse(localStorage.getItem('productImages') || {});
+        productImages[`customer-${updatedProduct.id}`] = updatedProduct.image;
+        localStorage.setItem('productImages', JSON.stringify(productImages));
+      }
+      
+      loadUserProducts();
+      setShowEditModal(false);
+      showAlert('Product updated successfully', 'success');
+    } catch (error) {
+      console.error('Error updating product:', error);
+      showAlert('Failed to update product');
+    }
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setShowEditModal(true);
+  };
 
   const handleDeleteAccount = useCallback(async () => {
     setIsDeleting(true);
     try {
+      const savedProducts = getProductsFromStorage();
+      const updatedProducts = savedProducts.filter(
+        product => product.creator !== user?.username
+      );
+      localStorage.setItem('userProducts', JSON.stringify(updatedProducts));
+      
       const success = await deleteAccount();
       if (success) {
         showAlert('Your account has been deleted', 'success');
@@ -51,7 +138,7 @@ export default function Profile() {
     } finally {
       setIsDeleting(false);
     }
-  }, [deleteAccount, showAlert]);
+  }, [deleteAccount, showAlert, user?.username]);
 
   if (isLoading) {
     return (
@@ -80,7 +167,7 @@ export default function Profile() {
               />
             )}
 
-            <Card className="shadow-sm">
+            <Card className="shadow-sm mb-4">
               <Card.Header className="bg-primary text-white">
                 <div className="d-flex align-items-center">
                   <FaUser className="me-2" />
@@ -122,7 +209,7 @@ export default function Profile() {
                           className="d-flex align-items-center justify-content-center"
                         >
                           <FaPlus className="me-2" />
-                          Создать товар
+                          Create Product
                         </Button>
                         <Button
                           variant="outline-danger"
@@ -138,6 +225,74 @@ export default function Profile() {
                 </Row>
               </Card.Body>
             </Card>
+
+            <Card className="shadow-sm">
+              <Card.Header className="bg-light">
+                <h5 className="mb-0">Your Products</h5>
+              </Card.Header>
+              <Card.Body>
+                {userProducts.length > 0 ? (
+                  <Row xs={1} md={2} lg={3} className="g-4">
+                    {userProducts.map((product) => (
+                      <Col key={product.id}>
+                        <Card className="h-100">
+                          <Card.Img 
+                            variant="top" 
+                            src={product.image || '/default-product.jpg'} 
+                            style={{ height: '200px', objectFit: 'cover' }}
+                          />
+                          <Card.Body>
+                            <Card.Title>{product.title || product.name}</Card.Title>
+                            
+                            <div className="mb-3">
+                              <div className="d-flex justify-content-between mb-2">
+                                <span className="text-danger fw-bold">${product.price || product.salePrice}</span>
+                                {product.originalPrice && (
+                                  <span className="text-decoration-line-through text-muted">
+                                    ${product.originalPrice}
+                                  </span>
+                                )}
+                              </div>
+                              {product.description && (
+                                <p className="small text-muted mb-3">
+                                  {product.description}
+                                </p>
+                              )}
+                              <div className="d-flex justify-content-between">
+                                <Button 
+                                  variant="warning" 
+                                  size="sm"
+                                  onClick={() => handleEditProduct(product)}
+                                >
+                                  <FaEdit /> Edit
+                                </Button>
+                                <Button 
+                                  variant="danger" 
+                                  size="sm"
+                                  onClick={() => handleDeleteProduct(product.id)}
+                                >
+                                  <FaTrash /> Delete
+                                </Button>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
+                ) : (
+                  <div className="text-center py-4">
+                    <p>You haven't created any products yet.</p>
+                    <Button 
+                      variant="primary" 
+                      onClick={() => router.push('/created')}
+                    >
+                      Create Your First Product
+                    </Button>
+                  </div>
+                )}
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </div>
@@ -149,10 +304,10 @@ export default function Profile() {
         backdrop="static"
       >
         <Modal.Header closeButton>
-          <Modal.Title className='text-dark'>Delete Confirmation</Modal.Title>
+          <Modal.Title>Delete Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className='text-dark'>Are you sure you want to delete your account? This action cannot be undone.</p>
+          <p>Are you sure you want to delete your account? This action cannot be undone.</p>
           <p className="text-danger">All your data will be permanently deleted.</p>
         </Modal.Body>
         <Modal.Footer>
@@ -183,6 +338,99 @@ export default function Profile() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {editingProduct && (
+        <EditProductModal 
+          show={showEditModal}
+          onHide={() => setShowEditModal(false)}
+          product={editingProduct}
+          onSave={handleUpdateProduct}
+        />
+      )}
     </div>
+  );
+}
+
+function EditProductModal({ show, onHide, product, onSave }) {
+  const [editedProduct, setEditedProduct] = useState(product);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    setEditedProduct(product);
+  }, [product]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedProduct(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSaving(true);
+    try {
+      onSave(editedProduct);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <Modal show={show} onHide={onHide} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Edit Product</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Product Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="title"
+              value={editedProduct.title || editedProduct.name || ''}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          
+          <div className="mb-3">
+            <label className="form-label">Description</label>
+            <textarea
+              className="form-control"
+              name="description"
+              value={editedProduct.description || ''}
+              onChange={handleChange}
+              rows={3}
+              required
+            />
+          </div>
+          
+          <div className="mb-3">
+            <label className="form-label">Price ($)</label>
+            <input
+              type="number"
+              className="form-control"
+              name="price"
+              value={editedProduct.price || editedProduct.salePrice || ''}
+              onChange={handleChange}
+              required
+              step="0.01"
+              min="0"
+            />
+          </div>
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>
+          Cancel
+        </Button>
+        <Button variant="primary" onClick={handleSubmit} disabled={isSaving}>
+          {isSaving ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
